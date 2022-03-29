@@ -1,3 +1,5 @@
+import java.util.HashSet;
+
 /*
  * @lc app=leetcode.cn id=36 lang=java
  *
@@ -81,7 +83,42 @@
 // @lc code=start
 class Solution {
     public boolean isValidSudoku(char[][] board) {
-        
+        HashSet colSet = new HashSet<>();
+        HashSet rowSet = new HashSet<>();
+        HashSet martixSet = new HashSet<>();
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                if(i % 3 == 0 && j % 3 ==0){
+                    for (int k = i; k < i+3; k++) {
+                        for (int l = j; l < j+3; l++) {
+                            if(martixSet.contains(board[k][l])){
+                                return false;
+                            }
+                            if(board[k][l] != '.'){
+                                martixSet.add(board[k][l]);
+                            }
+                        }
+                    }
+                }
+                if(i == j){
+                    for (int m = 0; m < board.length; m++) {
+                        if(colSet.contains(board[m][i]) || rowSet.contains(board[i][m])){
+                            return false;
+                        }
+                        if(board[m][i] != '.'){
+                            colSet.add(board[m][i]);
+                        }
+                        if(board[i][m] != '.'){
+                            rowSet.add(board[i][m]);
+                        }
+                    }
+                }
+                martixSet.clear();
+                colSet.clear();
+                rowSet.clear();
+            }
+        }
+        return true;
     }
 }
 // @lc code=end
